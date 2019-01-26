@@ -50,7 +50,7 @@ This package provides an easy way to quickly set up [AdminLTE](https://almsaeeds
 1. To update this package, first update the composer package:
 
     ```
-    composer update acharsoft/laravel-adminlte
+    composer update acharsoft/laravel-adminlte-rtl
     ```
 
 2. Then, publish the public assets with the `--force` flag to overwrite existing files
