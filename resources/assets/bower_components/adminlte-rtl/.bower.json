@@ -1,0 +1,40 @@
+{
+  "name": "adminlte-rtl",
+  "description": "AdminLTE package with rtl styles",
+  "homepage": "http://irani.im",
+  "license": "MIT",
+  "authors": [
+    "Ali Irani <ali@irani.im> (http://irani.im)"
+  ],
+  "keywords": [
+    "adminlte",
+    "rtl",
+    "bootstrap",
+    "theme",
+    "free",
+    "admin"
+  ],
+  "main": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "adminlte": "~2.3.5",
+    "bootstrap-rtl": "~3.4.0"
+  },
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "36cda43e1086f4a931f05d2bbfc9798631db847c"
+  },
+  "_source": "https://github.com/airani/adminlte-rtl.git",
+  "_target": "^1.0.1",
+  "_originalSource": "adminlte_rtl",
+  "_direct": true
+}
