@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Ich bin bereits registriert',
     'sign_in'                     => 'Anmelden',
     'log_out'                     => 'Abmelden',
+    'last_login'                  => 'sidste login',
     'toggle_navigation'           => 'Navigation umschalten',
     'login_message'               => 'Bitte melden Sie sich an, um auf den geschützten Bereich zuzugreifen',
     'register_message'            => 'Bitte füllen Sie das Formular aus, um ein neues Konto zu registrieren',

@@ -152,8 +152,36 @@ First, publish the configuration file:
 php artisan vendor:publish --provider="acharsoft\LaravelAdminLte\ServiceProvider" --tag=config
 ```
 
+    php artisan vendor:publish --provider="Yadahan\AuthenticationLog\AuthenticationLogServiceProvider"
+
 Now, edit `config/adminlte.php` to configure the title, skin, menu, URLs etc. All configuration options are explained in the comments. However, I want to shed some light on the `menu` configuration.
 
+
+### 5.0 Migrations
+
+First, publish the migration file:
+
+```
+php artisan vendor:publish --provider="acharsoft\LaravelAdminLte\ServiceProvider" --tag=migrations
+```
+
+Now, you run this command.
+
+```
+php artisan migrate
+```
+Finally, add the `AuthenticationLogable` and `Notifiable` traits to your authenticatable model (by default, `App\User` model). These traits provides various methods to allow you to get common authentication log data, such as last login time, last login IP address, and set the channels to notify the user when login from a new device:
+
+```php
+use Illuminate\Notifications\Notifiable;
+use Yadahan\AuthenticationLog\AuthenticationLogable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use Notifiable, AuthenticationLogable;
+}
+```
 ### 5.1 Menu
 
 You can configure your menu as follows:
@@ -207,6 +235,27 @@ Use the `can` option if you want conditionally show the menu item. This integrat
         'text' => 'Add new post',
         'url' => 'admin/blog/new',
         'can' => 'add-blog-post'
+    ],
+]
+```
+
+Use the `permission` option if you want conditionally show the menu item. If you need to conditionally show headers as well, you need to wrap it in an array like other menu items, using the `header` option:
+
+```php
+[
+    [
+        'header' => 'BLOG',
+        'can' => 'manage-blog'
+    ],
+    [
+        'text' => 'Add new post',
+        'url' => 'admin/blog/new',
+        'permission' => ['admin']
+    ],
+    [
+            'text' => 'Add new comment',
+            'url' => 'admin/blog/new/comment',
+            'permission' => ['admin','master','user']
     ],
 ]
 ```
@@ -305,6 +354,7 @@ A more practical example that actually uses translations and the database:
 
 This event-based approach is used to make sure that your code that builds the menu runs only when the admin panel is actually displayed and not on every request.
 
+
 #### Active menu items
 
 By default, a menu item is considered active if any of the following holds:
@@ -324,32 +374,53 @@ To override this behavior, you can specify an `active` parameter with an array o
 
 ### 5.2 Plugins
 
-By default the [DataTables](https://datatables.net/) plugin is supported. If set to `true`, the necessary javascript CDN script tags will automatically be injected into the `adminlte::page.blade` file.
+#### Custum Blade @links and @scripts
+Use the `plugins_js` and `plugins_css` option if you want to add your plugins.
 
 ```php
-'plugins' => [
-    'datatables' => true,
-]
+'plugins_js' => [
+        'pace'    => 'plugins/pace/pace.min.js',
+        ],
+'plugins_css' => [
+        'pace'    => 'plugins/pace/pace.min.css',
+        ],
 ```
+It is also possible to configure the Blade. in the boot of any service provider.
 
-Also the [Select2](https://select2.github.io/) plugin is supported. If set to `true`, the necessary javascript CDN script tags will automatically be injected into the `adminlte::page.blade` file.
+To configure the @links and @scripts for example in the `boot()` method of a service provider:
 
 ```php
-'plugins' => [
-    'datatables' => true,
-    'select2' => true,
-]
+
+class AppServiceProvider extends ServiceProvider
+{
+
+    public function boot()
+    {
+        Blade::directive('links',function ($expression){
+                    return "<?php  echo '<link rel=\'stylesheet\' href=\''.asset(config ('adminlte.plugins_css.'.$expression)).'\'>'; ?>";
+        });
+        
+        Blade::directive('scripts',function ($expression){
+                    return "<?php  echo '<script src=\''.asset(config ('adminlte.plugins_js.'.$expression)).'\'></script>'; ?>";
+        });
+        Blade::directive('langs',function ($expression){
+                    return "<?php  echo __('adminlte::adminlte.'.$expression); ?>";
+        });
+    }
+
+}
 ```
-
-Also the [ChartJS](https://www.chartjs.org/) plugin is supported. If set to `true`, the necessary javascript CDN script tags will automatically be injected into the `adminlte::page.blade` file.
-
-```php
-'plugins' => [
-    'datatables' => true,
-    'chartjs' => true,
-]
+after this run this command
 ```
+php artisan view:clear
+```
+in views just use ```@links('pace')``` to add this tag:
+```
+<link rel='stylesheet' href='http://localhost:8000/vendor/adminlte/plugins/pace/pace.min.css'>
+```
+or in your scripts just ```@scripts('pace')```
 
+if you want to use translate just use ```@langs('your_message')```
 
 ## 6. Translations
 
@@ -363,6 +434,12 @@ php artisan vendor:publish --provider="acharsoft\LaravelAdminLte\ServiceProvider
 
 Now, you can edit translations or add languages in `resources/lang/vendor/adminlte`.
 
+if you want to use this in your menu items just uncomment this line
+```
+acharsoft\LaravelAdminLte\Menu\Filters\LangFilter::class
+```
+in your menu filters
+
 ## 7. Customize views
 
 If you need full control over the provided views, you can publish them:
@@ -372,6 +449,111 @@ php artisan vendor:publish --provider="acharsoft\LaravelAdminLte\ServiceProvider
 ```
 
 Now, you can edit the views in `resources/views/vendor/adminlte`.
+
+## 7.1 Google Login
+
+Install socialite using composer. Socialite is an official Laravel package documented [here](https://laravel.com/docs/5.6/socialite).
+
+Add credentials to config/services.php. Socialite supports Facebook, Twitter, LinkedIn, Google, GitHub and Bitbucket. Other providers require packages from the community, which are all listed [here](https://socialiteproviders.github.io/about.html).
+
+These providers follow the OAuth 2.0 spec and therefore require a client_id, client_secret and redirect url. We’ll obtain these in the next step! First, add the values to the config file because socialite will be looking for them when we ask it to.
+
+```php
+'google' => [
+    'client_id'     => env('GOOGLE_CLIENT_ID'),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    'redirect'      => env('GOOGLE_REDIRECT')
+],
+```
+Since we added a new package, make sure to add to the service providers array in config/app.php:
+```
+/*
+* Package Service Providers...
+*/
+Laravel\Socialite\SocialiteServiceProvider::class,
+```
+
+Service Providers are the central place for application bootstrapping. The above line let’s Laravel to know to make the Socialite available for use.
+
+Add an alias to Socialite so it is easier to reference later, also in config/app.php file:
+```
+'aliases' => [
+    // ...
+    'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+]
+```
+
+- Create a project: https://console.developers.google.com/projectcreate
+
+- Create credentials: https://console.developers.google.com/apis/credentials
+
+A modal will pop up with your apps client id and client secret. Add these values to your .env file.
+```
+GOOGLE_CLIENT_ID=000000000000-XXXXXXXXXXX.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=XXXXXXXXXXXXX
+GOOGLE_REDIRECT=http://localhost:8000/callback
+```
+
+Enable the Google+ API: https://console.cloud.google.com/apis/api/plus.googleapis.com/overview (This tells Google what services our application is going to use ie Google+ account login)
+
+Update here January 2019: The Google+ API is being deprecated this March. The Laravel Socialite project latest release has been updated to not use the Google+ API so the above step is not necessary.
+
+Head into routes/web.php and add endpoints for redirect and callback:
+```
+Route::get('/redirect', 'Auth\LoginController@redirectToProvider');
+Route::get('/callback', 'Auth\LoginController@handleProviderCallback');
+```
+
+The first method will show the Google authentication page in the same window where the user is viewing your webpage (no annoying popups):
+```
+/**
+  * Redirect the user to the Google authentication page.
+  *
+  * @return \Illuminate\Http\Response
+  */
+public function redirectToProvider()
+{
+    return Socialite::driver('google')->redirect();
+}
+```
+
+The next method will handle after a successful Google authentication:
+```
+ /**
+     * Obtain the user information from Google.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect('/login');
+        }
+        // only allow people with @company.com to login
+        if(explode("@", $user->email)[1] !== 'gmail.com'){
+            return redirect()->to('/');
+        }
+        // check if they're an existing user
+        $existingUser = User::where('email', $user->email)->first();
+        if($existingUser){
+            // log them in
+            auth()->login($existingUser, true);
+        } else {
+            // create a new user
+            $newUser                  = new User;
+            $newUser->name            = $user->name;
+            $newUser->email           = $user->email;
+            $newUser->google_id       = $user->id;
+            $newUser->avatar          = $user->avatar;
+            $newUser->avatar_original = $user->avatar_original;
+            $newUser->save();
+            auth()->login($newUser, true);
+        }
+        return redirect()->to('/home');
+    }
+```
 
 ## 8. RTL Support
 

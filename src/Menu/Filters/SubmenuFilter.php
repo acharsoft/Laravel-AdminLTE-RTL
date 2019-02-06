@@ -20,8 +20,7 @@ class SubmenuFilter implements FilterInterface
 
     protected function makeSubmenuClasses()
     {
-        $classes = ['treeview-menu'];
-
+        $classes = ['nav','nav-treeview'];
         return $classes;
     }
 }

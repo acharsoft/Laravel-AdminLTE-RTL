@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Već imam korisnički račun',
     'sign_in'                     => 'Prijava',
     'log_out'                     => 'Odjava',
+    'last_login'                  => 'last login',
     'toggle_navigation'           => 'Pregled navigacije',
     'login_message'               => 'Prijava',
     'register_message'            => 'Registracija',

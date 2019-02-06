@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Я вже зареєстрований',
     'sign_in'                     => 'Вхід',
     'log_out'                     => 'Вихід',
+    'last_login'                  => 'Останній вхід',
     'toggle_navigation'           => 'Переключити навігацію',
     'login_message'               => 'Вхід до системи',
     'register_message'            => 'Реєстрація нового користувача',

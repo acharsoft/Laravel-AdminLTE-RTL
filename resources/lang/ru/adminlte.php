@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Я уже зарегистрирован',
     'sign_in'                     => 'Вход',
     'log_out'                     => 'Выход',
+    'last_login'                  => 'последний Войти',
     'toggle_navigation'           => 'Переключить навигацию',
     'login_message'               => 'Вход в систему',
     'register_message'            => 'Регистрация нового пользователя',

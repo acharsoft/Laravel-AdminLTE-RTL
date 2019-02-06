@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'J\'ai déjà un compte',
     'sign_in'                     => 'Connexion',
     'log_out'                     => 'Déconnexion',
+    'last_login'                  => 'Dernière connexion',
     'toggle_navigation'           => 'Basculer la navigation',
     'login_message'               => 'Connectez-vous pour commencer une session',
     'register_message'            => 'Enregistrement d\'un nouveau membre',

@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => '已经有账户',
     'sign_in'                     => '登录',
     'log_out'                     => '退出',
+    'last_login'                  => '上次登錄',
     'toggle_navigation'           => '切换导航',
     'login_message'               => '请先登录',
     'register_message'            => '注册新用户',

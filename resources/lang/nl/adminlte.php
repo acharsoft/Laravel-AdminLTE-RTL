@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Ik heb al een lidmaatschap',
     'sign_in'                     => 'Inloggen',
     'log_out'                     => 'Uitloggen',
+    'last_login'                  => 'अन्तिम लगइन',
     'toggle_navigation'           => 'Schakel navigatie',
     'login_message'               => 'Log in om je sessie te starten',
     'register_message'            => 'Registreer een nieuw lidmaatschap',

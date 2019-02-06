@@ -12,6 +12,7 @@ use acharsoft\LaravelAdminLte\Console\MakeAdminLteCommand;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use acharsoft\LaravelAdminLte\Http\ViewComposers\AdminLteComposer;
 
+
 class ServiceProvider extends BaseServiceProvider
 {
     public function register()
@@ -38,6 +39,8 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->publishAssets();
 
+        $this->loadMigrations();
+
         $this->registerCommands();
 
         $this->registerViewComposers($view);
@@ -55,6 +58,18 @@ class ServiceProvider extends BaseServiceProvider
             $viewsPath => base_path('resources/views/vendor/adminlte'),
         ], 'views');
     }
+
+    private function loadMigrations()
+    {
+        $migrationsPath = $this->packagePath('Database/migrations');
+
+        $this->loadMigrationsFrom($migrationsPath);
+
+        $this->publishes([
+            $migrationsPath => database_path(),
+        ], 'migrations');
+    }
+
 
     private function loadTranslations()
     {

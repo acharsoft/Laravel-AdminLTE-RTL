@@ -11,64 +11,75 @@
 @section('body')
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
+            <b>@langs('ورود به سایت')</b>
         </div>
         <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('adminlte::adminlte.login_message') }}</p>
-            <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
-                {!! csrf_field() !!}
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">@langs('فرم زیر را تکمیل کنید و ورود بزنید')</p>
 
-                <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-                    <input type="email" name="email" class="form-control" value="{{ old('email') }}"
-                           placeholder="{{ trans('adminlte::adminlte.email') }}">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <input type="password" name="password" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.password') }}">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}
-                            </label>
+                <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus placeholder="@langs('ایمیل')">
+                        <div class="input-group-append">
+                            <span class="fa fa-envelope input-group-text"></span>
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit"
-                                class="btn btn-primary btn-block btn-flat">{{ trans('adminlte::adminlte.sign_in') }}</button>
+                    <div class="input-group mb-3">
+                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="@langs('رمز عبور')">
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                     </div>
-                    <!-- /.col -->
+                    <div class="form-group row">
+                        <div class="col-md-7 offset-md-1">
+                            <div class="form-check">
+                                <label>
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> @langs('یاد آوری من')
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">@langs('ورود')</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <div class="social-auth-links text-center mb-3">
+                    <p>- @langs('یا') -</p>
+                    <a href="{{route ('google')}}" class="btn btn-block btn-danger">
+                        <i class="fa fa-google-plus mr-2"></i>@langs('ورود با اکانت گوگل')
+                    </a>
                 </div>
-            </form>
-            <div class="auth-links">
-                <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
-                   class="text-center"
-                >{{ trans('adminlte::adminlte.i_forgot_my_password') }}</a>
-                <br>
-                @if (config('adminlte.register_url', 'register'))
-                    <a href="{{ url(config('adminlte.register_url', 'register')) }}"
-                       class="text-center"
-                    >{{ trans('adminlte::adminlte.register_a_new_membership') }}</a>
-                @endif
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    @if (Route::has('password.request'))
+                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                            @langs('رمز عبورم را فراموش کرده ام.')
+                        </a>
+                    @endif
+                </p>
+                <p class="mb-0">
+                    <a href="{{ route('register') }}" class="text-center">@langs('ثبت نام')</a>
+                </p>
             </div>
+            <!-- /.login-card-body -->
         </div>
-        <!-- /.login-box-body -->
-    </div><!-- /.login-box -->
+    </div>
 @stop
 
 @section('adminlte_js')

@@ -27,7 +27,10 @@ class ClassesFilter implements FilterInterface
         }
 
         if (isset($item['submenu'])) {
-            $classes[] = $topNav ? 'dropdown' : 'treeview';
+            $classes[] = $topNav ? 'dropdown' : 'has-treeview';
+            if ($item['active']) {
+                $classes[] = 'menu-open';
+            }
         }
 
         return $classes;

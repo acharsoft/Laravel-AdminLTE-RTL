@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'Ho già un abbonamento',
     'sign_in'                     => 'Accedi',
     'log_out'                     => 'Logout',
+    'last_login'                  => 'ultimo accesso',
     'toggle_navigation'           => 'Attiva la navigazione',
     'login_message'               => 'Accedi per iniziare la tua sessione',
     'register_message'            => 'Registra un nuovo abbonamento',

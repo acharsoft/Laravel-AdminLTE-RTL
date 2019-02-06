@@ -13,6 +13,7 @@ return [
     'i_already_have_a_membership' => 'من از قبل عضویت دارم',
     'sign_in'                     => 'ورود',
     'log_out'                     => 'خروج',
+    'last_login'                  => 'آخرین ورود',
     'toggle_navigation'           => 'تغییر ناوبری',
     'login_message'               => 'وارد شوید تا جلسه شما شروع شود',
     'register_message'            => 'ثبت نام کاربر جدید',

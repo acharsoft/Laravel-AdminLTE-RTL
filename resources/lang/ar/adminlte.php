@@ -12,6 +12,7 @@ return [
     'i_already_have_a_membership' => 'هذا الحساب لديه عضوية سابقة',
     'sign_in'                     => 'تسجيل الدخول',
     'log_out'                     => 'تسجيل خروج',
+    'last_login'                  => 'آخر تسجيل دخول',
     'toggle_navigation'           => 'القائمة الجانبية',
     'login_message'               => 'يجب تسجيل الدخول',
     'register_message'            => 'تم تسجيل العضوية الجديدة ',

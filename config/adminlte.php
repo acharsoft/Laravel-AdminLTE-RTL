@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'AdminLTE 3',
 
     'title_prefix' => '',
 
@@ -25,40 +25,15 @@ return [
     |--------------------------------------------------------------------------
     |
     | This logo is displayed at the upper left corner of your admin panel.
-    | You can use basic HTML here if you want. The logo has also a mini
-    | variant, used for the mini side bar. Make it 3 letters or so
+    | You can use basic HTML here if you want. The logo
+    | is address of your logo png file, logo_text is your logo text.
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_text' => '<b>Admin</b>LTE 3',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Skin Color
-    |--------------------------------------------------------------------------
-    |
-    | Choose a skin color for your admin panel. The available skin colors:
-    | blue, black, purple, yellow, red, and green. Each skin also has a
-    | ligth variant: blue-light, purple-light, purple-light, etc.
-    |
-    */
-
-    'skin' => 'blue',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Layout
-    |--------------------------------------------------------------------------
-    |
-    | Choose a layout for your admin panel. The available layout options:
-    | null, 'boxed', 'fixed', 'top-nav'. null is the default, top-nav
-    | removes the sidebar and places your menu in the top navbar
-    |
-    */
-
-    'layout' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -203,6 +178,8 @@ return [
         acharsoft\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         acharsoft\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         acharsoft\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        acharsoft\LaravelAdminLte\Menu\Filters\MenuPermission::class,
+        acharsoft\LaravelAdminLte\Menu\Filters\LangFilter::class
     ],
 
     /*
@@ -210,15 +187,62 @@ return [
     | Plugins Initialization
     |--------------------------------------------------------------------------
     |
-    | Choose which JavaScript plugins should be included. At this moment,
-    | only DataTables is supported as a plugin. Set the value to true
-    | to include the JavaScript file from a CDN via a script tag.
+    | Choose which JavaScript plugins should be included.
+    | Set the value to address of your plugins
+    | to include the JavaScript file from your plugins a script tag.
     |
     */
 
-    'plugins' => [
-        'datatables' => true,
-        'select2'    => true,
-        'chartjs'    => true,
+    'plugins_js' => [
+        'bootstrap-slider' => 'vendor/adminlte/plugins/bootstrap-slider/bootstrap-slider.js',
+        'bootstrap-wysihtml5'    => 'vendor/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
+        'chartjs-old'    => 'vendor/adminlte/plugins/chartjs-old/Chart.min.js',
+        'ckeditor'    => 'vendor/adminlte/plugins/ckeditor/ckeditor.js',
+        'colorpicker'    => 'vendor/adminlte/plugins/colorpicker/bootstrap-colorpicker.min.js',
+        'datepicker'    => 'vendor/adminlte/plugins/datepicker/bootstrap-datepicker.js',
+        'fastclick'    => 'vendor/adminlte/plugins/fastclick/fastclick.min.js',
+        'iCheck'    => 'vendor/adminlte/plugins/iCheck/icheck.min.js',
+        'ionslider'    => 'vendor/adminlte/plugins/ionslider/ion.rangeSlider.min.js',
+        'jQueryUI'    => 'vendor/adminlte/plugins/jQueryUI/jquery-ui.min.js',
+        'knob'    => 'vendor/adminlte/plugins/knob/jquery.knob.js',
+        'morris'    => 'vendor/adminlte/plugins/morris/morris.min.js',
+        'pace'    => 'vendor/adminlte/plugins/pace/pace.min.js',
+        'slimScroll'    => 'vendor/adminlte/plugins/slimScroll/jquery.slimscroll.min.js',
+        'sparkline'    => 'vendor/adminlte/plugins/sparkline/jquery.sparkline.min.js',
+        'timepicker'    => 'vendor/adminlte/plugins/timepicker/bootstrap-timepicker.min.js',
+        'bootstrap'    => 'vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
+        'raphael'    => 'https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js',
+        'jvectormap'    => 'vendor/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Plugins Initialization
+    |--------------------------------------------------------------------------
+    |
+    | Choose which CSS plugins should be included.
+    | Set the value to address of your plugins
+    | to include the CSS file from your plugins a link style tag.
+    |
+    */
+
+    'plugins_css' => [
+        'bootstrap-slider' => 'vendor/adminlte/plugins/bootstrap-slider/slider.css',
+        'bootstrap-wysihtml5'    => 'vendor/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
+        'colorpicker'    => 'vendor/adminlte/plugins/colorpicker/bootstrap-colorpicker.min.css',
+        'datepicker'    => 'vendor/adminlte/plugins/datepicker/datepicker3.css',
+        'iCheck'    => 'vendor/adminlte/plugins/iCheck/all.css',
+        'ionslider'    => 'vendor/adminlte/plugins/ionslider/ion.rangeSlider.css',
+        'morris'    => 'vendor/adminlte/plugins/morris/morris.css',
+        'pace'    => 'vendor/adminlte/plugins/pace/pace.min.css',
+        'timepicker'    => 'vendor/adminlte/plugins/timepicker/bootstrap-timepicker.min.css',
+        'font-awesome'    => 'vendor/adminlte/plugins/font-awesome/css/font-awesome.min.css',
+        'ionicons'    => 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
+        'adminlte_rtl'    => 'vendor/adminlte/dist/css/adminlte.min.css',
+        'adminlte_ltr'    => 'vendor/adminlte/ltr/dist/css/adminlte.min.css',
+        'iCheck_blue'    => 'vendor/adminlte/plugins/iCheck/flat/blue.css',
+        'jvectormap'    => 'vendor/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css',
+        'daterangepicker'    => 'vendor/adminlte/plugins/daterangepicker/daterangepicker-bs3.css',
     ],
 ];
+
