@@ -66,7 +66,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->loadMigrationsFrom($migrationsPath);
 
         $this->publishes([
-            $migrationsPath => database_path(),
+            $migrationsPath => database_path('migrations'),
         ], 'migrations');
     }
 
